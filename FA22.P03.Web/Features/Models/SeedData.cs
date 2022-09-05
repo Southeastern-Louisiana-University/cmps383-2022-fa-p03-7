@@ -1,56 +1,60 @@
 using Microsoft.EntityFrameworkCore;
-using Database.Config;
-using FA22.P03.Web.Features.Products;
-using System;
-using System.Linq;
+using Database;
+using FA22.P02.Web.Features;
+
+namespace Models
 
 
-namespace SeedData.Models
 {
     public static class SeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new DataContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<DataContext>>()))
+
+                    serviceProvider.GetRequiredService
+                    <DbContextOptions<DataContext>>()
+                    ))
             {
                 // Look for any movies.
-                if (context.Product.Any())
-                {
-                    return;   // DB has been seeded
-                }
+                // if (context.Products.Any())
+                // {
+                //     return;   // DB has been seeded
+                // }
 
-                context.Product.AddRange(
-            {
+                context.Products.Add(
 
-                    new ProductDto
+
+                    new Product
                     {
-                        //  Id = currentId++,
-                        Id = 1,
+
                         Name = "Super Mario World",
                         Description = "Super Nintendo (SNES) System. Mint Condition",
-                    };
-
-                    new ProductDto
+                    }
+                );
+                context.Products.Add(
+                    new Product
                     {
-                        Id = 2,
+
                         Name = "Donkey Kong 64",
                         Description = "Moderate Condition Donkey Kong 64 cartridge for the Nintendo 64",
-                    };
-
-                    new ProductDto
+                    }
+                );
+                context.Products.Add(
+                    new Product
                     {
-                        Id = 3,
+
                         Name = "Half-Life 2: Collector's Edition",
                         Description = "Good condition with all 5 CDs, booklets, and material from original",
                     }
+                );
 
-                    ;
 
 
-                    context.SaveChanges();
-                }
+                context.SaveChanges();
             }
+
         }
     }
+}
+
