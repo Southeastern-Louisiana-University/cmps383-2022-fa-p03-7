@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using FA22.P02.Web.Features;
-namespace Database.Config;
+namespace Database;
 
 
 
@@ -12,6 +12,11 @@ public class DataContext : DbContext
     public DbSet<ItemListing> ItemListings { get; set; }
 
 
+    public DataContext(DbContextOptions Options) : base(Options)
+    {
+
+    }
+
 
 
 
@@ -20,17 +25,17 @@ public class DataContext : DbContext
         modelBuilder.Entity<Product>();
 
 
-        modelBuilder.Entity<Item>()
-            .Property(b => b.Url)
-            .IsRequired();
+        modelBuilder.Entity<Item>();
+        // .Property(b => b.Url)
+        // .IsRequired();
 
-        modelBuilder.Entity<Listing>()
-            .Property(b => b.Url)
-            .IsRequired();
+        modelBuilder.Entity<Listing>();
+        // .Property(b => b.Url)
+        // .IsRequired();
 
-        modelBuilder.Entity<ItemListing>()
-        .Property(b => b.Url)
-            .IsRequired();
+        modelBuilder.Entity<ItemListing>();
+        // .Property(b => b.Url)
+        //     .IsRequired();
 
 
 
