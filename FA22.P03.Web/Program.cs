@@ -6,7 +6,8 @@ using Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 
@@ -26,7 +27,11 @@ using (var scope = app.Services.CreateScope())
 
     SeedData.Initialize(services);
 }
-
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
