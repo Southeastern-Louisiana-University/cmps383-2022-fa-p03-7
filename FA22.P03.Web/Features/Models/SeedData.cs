@@ -17,10 +17,10 @@ namespace Models
                     ))
             {
                 // Look for any movies.
-                // if (context.Products.Any())
-                // {
-                //     return;   // DB has been seeded
-                // }
+                if (context.Products.Any())
+                {
+                    return;   // DB has been seeded
+                }
 
                 context.Products.Add(
 
