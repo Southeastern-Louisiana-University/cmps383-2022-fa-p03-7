@@ -75,7 +75,33 @@ public class ProductController : Controller
             Name = name,
             Description = description
         };
+
         return CreatedAtAction("AddNewProduct", "/api/products", newProduct);
+
+
+
+
+    }
+    [HttpPut("/api/products/{id}")]
+    public IActionResult UpdateProduct(int id, string name, string description)
+    {
+
+        var current = _dataContext.Products.FirstOrDefault(x => x.Id == id);
+        if (current == null)
+        {
+            return NotFound();
+        }
+
+
+        if (name == null || name.Length > 120)
+        {
+            return BadRequest("invalid data");
+        }
+
+        current.Name = name;
+        current.Description = description;
+
+        return CreatedAtAction("AddNewProduct", "/api/products", current);
 
 
 
