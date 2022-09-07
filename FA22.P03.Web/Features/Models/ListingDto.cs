@@ -1,11 +1,11 @@
-﻿namespace FA22.P03.Web.Features.Products;
+namespace FA22.P03.Web.Features.Products;
 
-public class ProductDto
+
+
+public class ListingDto
 {
     public int Id { get; set; }
-
     public string? Name { get; set; }
     public string? Description { get; set; }
-
     public decimal Price { get; set; }
 }
