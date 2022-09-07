@@ -28,9 +28,9 @@ public class ProductController : Controller
     }
 
 
-    //Todo GET /api/products/{id}/listings
-    // returns all current listings for the given product id 200
 
+    //Todo Get /api/products/{id}
+    // find product by its unique id and return the details 200/404
     [HttpGet("/api/products/{id}")]
     public IActionResult GetProductById(int id)
     {
@@ -44,12 +44,46 @@ public class ProductController : Controller
 
     }
 
-    //Todo Get /api/products/{id}
-    // find product by its unique id and return the details 200/404
+    //Todo GET /api/products/{id}/listings
+    // returns all current listings for the given product id 200
+    //! No listings in db to check
+    [HttpGet("/api/products/{id}/listings")]
+    public IActionResult GetProductListing(int id)
+    {
+        var result = _dataContext.Listings.Where(x => x.Id == id);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+        return Ok(result);
+
+    }
     //Todo Post /api/products
     // name must be provided, no longer than 120 / must have description/ return created dto and location
+    [HttpPost("/api/products/")]
+    public IActionResult AddNewProduct(string name, string description)
+    {
+
+
+        if (name == null || name.Length > 120)
+        {
+            return BadRequest("invalid data");
+        }
+        var newProduct = new ProductDto
+        {
+            Name = name,
+            Description = description
+        };
+        return CreatedAtAction("AddNewProduct", "/api/products", newProduct);
+
+
+
+
+    }
     //Todo PUT /api/products/{id}
     // must have name 120 char max and description  return updated dto
+
     //Todo DELETE /api/products/{id}
     //retrun 200 or 404
 }
