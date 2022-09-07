@@ -75,13 +75,18 @@ public class ProductController : Controller
             Name = name,
             Description = description
         };
+        _dataContext.Products.Add(new Product
+        {
+            Name = name,
+            Description = description,
+        });
+        _dataContext.SaveChanges();
 
         return CreatedAtAction("AddNewProduct", "/api/products", newProduct);
 
-
-
-
     }
+    //Todo PUT /api/products/{id}
+    // must have name 120 char max and description  return updated dto
     [HttpPut("/api/products/{id}")]
     public IActionResult UpdateProduct(int id, string name, string description)
     {
@@ -92,25 +97,31 @@ public class ProductController : Controller
             return NotFound();
         }
 
-
-        if (name == null || name.Length > 120)
+        if (name == null || name.Length > 120 || description == null)
         {
             return BadRequest("invalid data");
         }
-
         current.Name = name;
         current.Description = description;
 
+        _dataContext.SaveChanges();
+
         return CreatedAtAction("AddNewProduct", "/api/products", current);
-
-
-
-
     }
-    //Todo PUT /api/products/{id}
-    // must have name 120 char max and description  return updated dto
 
     //Todo DELETE /api/products/{id}
     //retrun 200 or 404
+    [HttpDelete("/api/products/{id}")]
+    public IActionResult DeleteProduct(int id)
+    {
+        var current = _dataContext.Products.FirstOrDefault(x => x.Id == id);
+        if (current == null)
+        {
+            return NotFound();
+        }
+        _dataContext.Remove(current);
+        _dataContext.SaveChanges();
+        return Ok();
+    }
 }
 
