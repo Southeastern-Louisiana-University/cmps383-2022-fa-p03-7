@@ -65,12 +65,17 @@ public class ProductController : Controller
     public IActionResult AddNewProduct(string name, string description)
     {
 
+
+        if (name == null || name.Length > 120)
+        {
+            return BadRequest("invalid data");
+        }
         var newProduct = new ProductDto
         {
             Name = name,
             Description = description
         };
-
+        return CreatedAtAction("AddNewProduct", "/api/products", newProduct);
 
 
 
@@ -78,6 +83,7 @@ public class ProductController : Controller
     }
     //Todo PUT /api/products/{id}
     // must have name 120 char max and description  return updated dto
+
     //Todo DELETE /api/products/{id}
     //retrun 200 or 404
 }
