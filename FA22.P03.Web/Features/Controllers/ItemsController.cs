@@ -24,7 +24,7 @@ public class ItemController : Controller
     public IActionResult AddNewItem(string condition, int productId)
     {
         //check for existing product by id and for condition string
-        var result = _dataContext.Items.FirstOrDefault(x => x.Id == productId);
+        var result = _dataContext.Products.FirstOrDefault(x => x.Id == productId);
         if (result == null)
         {
             return NotFound();
@@ -41,6 +41,7 @@ public class ItemController : Controller
         _dataContext.Items.Add(new Item
         {
             Condition = condition,
+            ProductId = productId
 
         });
         _dataContext.SaveChanges();
@@ -50,8 +51,8 @@ public class ItemController : Controller
     [HttpPut("/api/items/{id}")]
     public IActionResult UpdateItem(int productId, string name, string condition)
     {
-        var id = String.IsNullOrEmpty(productId.ToString());
-        if (condition == null || id == false)
+        // var id = String.IsNullOrEmpty(productId.ToString());
+        if (condition == null)
         {
             return BadRequest("invalid data");
         }
